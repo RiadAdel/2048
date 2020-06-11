@@ -165,8 +165,13 @@ class game_2048 {
             for (let col = 0; col < this.size; col++) {
                 if (!this.state[row][col])
                     return false
-
+                if(row != this.size-1 && this.state[row][col] == this.state[row+1][col])
+                    return false
+                if(col != this.size-1 && this.state[row][col] == this.state[row][col+1])
+                    return false
             }
+
+        
         return true
     }
 
@@ -196,7 +201,10 @@ document.addEventListener("DOMContentLoaded", function (e) {
     mainEml.style.gridTemplateColumns = mainEml.style.gridTemplateRows = Array(game.size).fill("1fr").join(" ")
     drawBoard(mainEml, game.state)
     document.addEventListener('keydown', function (e) {
-        console.log(game.score)
+        if(game.isGameOver()){
+            console.log("GameOver")
+            return
+        }
         switch (e.code) {
             case "ArrowUp":
                 game.up();
@@ -217,5 +225,6 @@ document.addEventListener("DOMContentLoaded", function (e) {
             default:
         }
         drawBoard(mainEml, game.state)
+        console.log(game.score)
     })
 })
