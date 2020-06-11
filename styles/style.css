@@ -7,16 +7,61 @@
     padding: 0;
     box-sizing: border-box;
     text-decoration: none;
+    transition: all 1s ease-in-out;
+
 }
 
-html,body{
+html,
+body {
     width: 100%;
     height: 100%;
 }
 
-main{
-    background-color: #EEE;
-    width: 20%;
-    height: 20%;
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+main {
+    width: 30%;
+    position: relative;
+}
+
+@media (max-width: 768px) {
+    main {
+        width: 80%;
+    }
+}
+
+main::after {
+    content: "";
+    display: block;
+    padding-bottom: 100%;
+}
+
+main .board-container {
     display: grid;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    column-gap: 5px;
+    row-gap: 5px;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+main .board-container .card {
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2em;
+}
+
+.gameover::after{
+    content: "GAME OVER!";
+    color: red;
+    font-size: 28px;
+    padding-left: 32px;
 }

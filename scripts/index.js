@@ -185,35 +185,26 @@ class game_2048 {
 function getBackgroundColor(val){
     switch(val){
         case 0:
-            return "#ffcdb6"
+            return ["#fff2ed" , "#000"]
         case 2:
-            return "#ff9a6d"
+            return ["#ffcdb6", "#000"]
         case 4:
-            return "#ff8149"
+            return ["#ff9a6d", "#000"]
         case 8:
-            return "#ffff80"
+            return ["#ff8149", "#000"]
         case 16:
-            return "#FFFF00"
+            return ["#ffff66", "#000"]
         case 32:
-            return "#fd564d"
+            return ["#FFFF00", "#000"]
         case 64:
-            return "#fc261a"
+            return ["#fd564d", "#000"]
         case 128:
-            return "#ca0b00"
+            return ["#fc261a", "#000"]
         case 256:
-            return "#ca0b00"
-        case 512:
-            return "#ca0b00"
-        case 1080:
-            return "#ca0b00"
-        case 2160:
-            return "#ca0b00"
-        case 4320:
-            return "#ca0b00"
-        case 8640:
-            return "#ca0b00"
+            return ["#ca0b00", "#000"]
         default:
-            return "#fd564d"
+            return ["#7e0700","#fFF"]
+
     }
 }
 
@@ -221,9 +212,11 @@ function drawBoard(parent, matrix) {
     parent.innerHTML = ""
     matrix.forEach((row, ri) => row.forEach(function (val, ci) {
         let valContainer = document.createElement("div")
-        valContainer.innerText = val
+        valContainer.innerText = val?val:""
         valContainer.classList.add("card")
-        valContainer.style.backgroundColor = getBackgroundColor(val)
+        valContainer.style.backgroundColor = getBackgroundColor(val)[0]
+        valContainer.style.color = getBackgroundColor(val)[1]
+        
         valContainer.style.gridArea = `${ri + 1}/${ci + 1}/${ri + 2}/${ci + 2} `
         parent.appendChild(valContainer)
     }))
@@ -238,7 +231,7 @@ document.addEventListener("DOMContentLoaded", function (e) {
     drawBoard(mainEml, game.state)
     document.addEventListener('keydown', function (e) {
         if (game.isGameOver()) {
-            console.log("GameOver")
+            scoreEml.classList.add("gameover")
             return
         }
         switch (e.code) {
