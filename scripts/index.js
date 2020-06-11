@@ -128,6 +128,7 @@ class game_2048 {
                 else if (this.state[row][start] == this.state[row][col]) {
                     this.state[row][start] *= 2
                     this.state[row][col] = 0
+                    this.score += this.state[row][start]
                     start = col
                 }
                 else if (this.state[row][col])
@@ -149,6 +150,7 @@ class game_2048 {
                 else if (this.state[row][start] == this.state[row][col]) {
                     this.state[row][start] *= 2
                     this.state[row][col] = 0
+                    this.score += this.state[row][start]
                     start = col
                 }
                 else if (this.state[row][col])
@@ -165,13 +167,13 @@ class game_2048 {
             for (let col = 0; col < this.size; col++) {
                 if (!this.state[row][col])
                     return false
-                if(row != this.size-1 && this.state[row][col] == this.state[row+1][col])
+                if (row != this.size - 1 && this.state[row][col] == this.state[row + 1][col])
                     return false
-                if(col != this.size-1 && this.state[row][col] == this.state[row][col+1])
+                if (col != this.size - 1 && this.state[row][col] == this.state[row][col + 1])
                     return false
             }
 
-        
+
         return true
     }
 
@@ -180,16 +182,48 @@ class game_2048 {
     }
 }
 
+function getBackgroundColor(val){
+    switch(val){
+        case 0:
+            return "#ffcdb6"
+        case 2:
+            return "#ff9a6d"
+        case 4:
+            return "#ff8149"
+        case 8:
+            return "#ffff80"
+        case 16:
+            return "#FFFF00"
+        case 32:
+            return "#fd564d"
+        case 64:
+            return "#fc261a"
+        case 128:
+            return "#ca0b00"
+        case 256:
+            return "#ca0b00"
+        case 512:
+            return "#ca0b00"
+        case 1080:
+            return "#ca0b00"
+        case 2160:
+            return "#ca0b00"
+        case 4320:
+            return "#ca0b00"
+        case 8640:
+            return "#ca0b00"
+        default:
+            return "#fd564d"
+    }
+}
 
 function drawBoard(parent, matrix) {
     parent.innerHTML = ""
     matrix.forEach((row, ri) => row.forEach(function (val, ci) {
         let valContainer = document.createElement("div")
         valContainer.innerText = val
-        valContainer.style.display = "flex"
-        valContainer.style.justifyContent = "center"
-        valContainer.style.alignItems = "center"
-        valContainer.style.fontSize = "2em"
+        valContainer.classList.add("card")
+        valContainer.style.backgroundColor = getBackgroundColor(val)
         valContainer.style.gridArea = `${ri + 1}/${ci + 1}/${ri + 2}/${ci + 2} `
         parent.appendChild(valContainer)
     }))
@@ -197,11 +231,13 @@ function drawBoard(parent, matrix) {
 
 document.addEventListener("DOMContentLoaded", function (e) {
     let game = new game_2048()
-    let mainEml = document.getElementsByTagName("main")[0]
+    let mainEml = document.getElementsByTagName("main")[0].getElementsByClassName('board-container')[0]
+    let scoreEml = document.getElementById('score')
     mainEml.style.gridTemplateColumns = mainEml.style.gridTemplateRows = Array(game.size).fill("1fr").join(" ")
+
     drawBoard(mainEml, game.state)
     document.addEventListener('keydown', function (e) {
-        if(game.isGameOver()){
+        if (game.isGameOver()) {
             console.log("GameOver")
             return
         }
@@ -225,6 +261,7 @@ document.addEventListener("DOMContentLoaded", function (e) {
             default:
         }
         drawBoard(mainEml, game.state)
+        scoreEml.innerText = game.score
         console.log(game.score)
     })
 })
